@@ -29,7 +29,7 @@ function auth(req, res, next) {
 }
 
 const allowedOrigins = [
-  'https://<seu-frontend-no-vercel>', // troque pelo domínio do Vercel depois
+  'https://https://propostas-frontend.vercel.app/', // troque pelo domínio do Vercel depois
   'http://localhost:5173' // para dev no Codespaces/local
 ];
 
