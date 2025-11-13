@@ -9,6 +9,9 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.get('/', (req, res) => {
+  res.send('✅ API de Gestão de Propostas está online!');
+});
 
 const { Pool } = pkg;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -25,6 +28,18 @@ function auth(req, res, next) {
   }
 }
 
+const allowedOrigins = [
+  'https://<seu-frontend-no-vercel>', // troque pelo domínio do Vercel depois
+  'http://localhost:5173' // para dev no Codespaces/local
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if(!origin) return callback(null, true); // allow curl/postman
+    if(allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+    return callback(new Error('CORS not allowed by backend'));
+  }
+}));
 // Rota de login
 app.post("/login", async (req, res) => {
   const { email, senha } = req.body;
